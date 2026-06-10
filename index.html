@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wagent: el CRM que se completa solo</title>
+  <meta name="description" content="Mandale un audio de WhatsApp a Wagent después de cada reunión. Él registra contactos, oportunidades y pendientes en tu CRM, y te responde cualquier pregunta sobre tus clientes." />
+  <meta property="og:title" content="Wagent: el CRM que se completa solo" />
+  <meta property="og:description" content="Tu asistente de ventas por WhatsApp. Le contás, él registra. Le preguntás, te responde." />
+  <meta property="og:type" content="website" />
+
+  <!-- Satoshi vía Fontshare. Para producción: self-host con @font-face -->
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap" rel="stylesheet" />
+  <!-- Íconos: Phosphor (web), versión fijada + SRI -->
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
+        integrity="sha384-6p9AefaqUhEVheRlj1mpAkbngHXy9mbYMrIdcIt4Jlc9lOLIablJq3bBsLOjGwZ7" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css"
+        integrity="sha384-nblAP2mo2pVPyMQZDw9Xy9Cwgs9lowushAYep4w5+Q9kF4Ibf3n0B/gCMVdR+Vqy" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css"
+        integrity="sha384-pPVoXE8ft+zxKtxIDDI7SfTK6y95NHm4qa+hKEg/hs8VkjW5IP+9/dGOPCbDpUPl" crossorigin="anonymous" />
+
+
+  <style>
+    :root {
+      --bg: #f7f7f5;
+      --bg-raised: #ffffff;
+      --bg-tint: #eef4f0;
+      --ink: #1c1c1a;
+      --ink-soft: #5a5a55;
+      --line: #e3e3df;
+      --accent: #0e7a52;
+      --accent-ink: #0a5c3e;
+      --accent-soft: #d9ece2;
+      --accent-deep: #0b3d2c;
+      --on-deep: #e8f3ed;
+      --on-deep-soft: #a8c9b8;
+      --bubble-out: #d3ecd9;
+      --radius-card: 16px;
+      --radius-bubble: 16px;
+      /* Sistema de radios: botones = pill, cards = 16px, burbujas = 16px */
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121311;
+        --bg-raised: #1b1d1a;
+        --bg-tint: #182019;
+        --ink: #ecece8;
+        --ink-soft: #a3a39c;
+        --line: #2a2c28;
+        --accent: #3ecf8e;
+        --accent-ink: #5fdca2;
+        --accent-soft: #1c3328;
+        --accent-deep: #0b3d2c;
+        --on-deep: #e8f3ed;
+        --on-deep-soft: #a8c9b8;
+        --bubble-out: #1f3a2b;
+      }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+
+    body {
+      font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ===== Botones ===== */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      border-radius: 999px;
+      padding: 13px 26px;
+      font-weight: 700; font-size: 16px;
+      white-space: nowrap;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:active { transform: scale(.98); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-ink); }
+    @media (prefers-color-scheme: dark) {
+      .btn-primary { color: #0b1f15; }
+      .btn-primary:hover { background: var(--accent); filter: brightness(1.08); }
+    }
+    .btn-ghost { border-color: var(--line); color: var(--ink); background: transparent; }
+    .btn-ghost:hover { border-color: var(--ink-soft); }
+    .btn-sm { padding: 9px 20px; font-size: 15px; }
+
+    /* ===== Nav ===== */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      height: 68px;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 20px; letter-spacing: -0.02em; }
+    .brand-mark {
+      width: 30px; height: 30px; border-radius: 9px;
+      background: var(--accent); color: #fff;
+      display: grid; place-items: center;
+      font-size: 16px; font-weight: 900;
+    }
+    @media (prefers-color-scheme: dark) { .brand-mark { color: #0b1f15; } }
+    .nav-links { display: flex; gap: 28px; font-weight: 500; font-size: 15px; color: var(--ink-soft); }
+    .nav-links a:hover { color: var(--ink); }
+    @media (max-width: 860px) { .nav-links { display: none; } }
+
+    /* ===== Hero ===== */
+    .hero { padding: 72px 0 96px; }
+    .hero-grid {
+      display: grid; grid-template-columns: 7fr 5fr;
+      gap: 64px; align-items: center;
+    }
+    .hero h1 {
+      font-size: clamp(2.6rem, 5.6vw, 4.4rem);
+      font-weight: 900; letter-spacing: -0.035em; line-height: 1.02;
+      max-width: 12ch;
+    }
+    .hero h1 em { font-style: italic; color: var(--accent); line-height: 1.1; padding-bottom: 4px; display: inline-block; }
+    .hero p {
+      margin-top: 22px; font-size: 19px; color: var(--ink-soft);
+      max-width: 44ch;
+    }
+    .hero-ctas { margin-top: 34px; display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* ===== Chat demo (preview del producto: la interfaz ES la conversación) ===== */
+    .chat {
+      background: var(--bg-raised);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-card);
+      box-shadow: 0 24px 60px -28px rgba(14, 60, 40, .25);
+      overflow: hidden;
+    }
+    .chat-head {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .chat-head .brand-mark { width: 36px; height: 36px; border-radius: 50%; }
+    .chat-head strong { display: block; font-size: 15px; }
+    .chat-head span { font-size: 13px; color: var(--ink-soft); }
+    .chat-body { padding: 20px 18px 24px; display: flex; flex-direction: column; gap: 12px; }
+
+    .bubble {
+      max-width: 85%;
+      padding: 12px 16px;
+      font-size: 14.5px; line-height: 1.45;
+      border-radius: var(--radius-bubble);
+    }
+    .bubble.out {
+      align-self: flex-end;
+      background: var(--bubble-out);
+      border-bottom-right-radius: 5px;
+    }
+    .bubble.in {
+      align-self: flex-start;
+      background: var(--bg-tint);
+      border: 1px solid var(--line);
+      border-bottom-left-radius: 5px;
+    }
+    .bubble .meta { display: block; margin-top: 6px; font-size: 11.5px; color: var(--ink-soft); text-align: right; }
+
+    .voice { display: flex; align-items: center; gap: 12px; min-width: 230px; }
+    .voice .ph { font-size: 26px; color: var(--accent-ink); }
+    .wave { display: flex; align-items: center; gap: 3px; height: 26px; flex: 1; }
+    .wave i {
+      width: 3px; border-radius: 2px;
+      background: var(--accent-ink); opacity: .75;
+      height: calc(6px + var(--h) * 18px);
+    }
+    .voice .dur { font-size: 12.5px; color: var(--ink-soft); }
+
+    .bubble .done {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-weight: 700; color: var(--accent-ink);
+      margin-bottom: 4px;
+    }
+
+    /* ===== Secciones ===== */
+    section { padding: 104px 0; }
+    @media (max-width: 768px) { section { padding: 72px 0; } }
+
+    .h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900; letter-spacing: -0.03em; line-height: 1.08;
+    }
+    .sub { margin-top: 18px; font-size: 18px; color: var(--ink-soft); max-width: 52ch; }
+
+    /* Problema: declaración editorial */
+    .problema { background: var(--bg-tint); border-block: 1px solid var(--line); }
+    .problema .h2 { max-width: 18ch; }
+
+    /* Cómo funciona */
+    .como-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: start; }
+    .como-sticky { position: sticky; top: 110px; }
+    .pasos { display: flex; flex-direction: column; }
+    .paso { padding: 30px 0; display: grid; grid-template-columns: 56px 1fr; gap: 20px; }
+    .paso + .paso { border-top: 1px solid var(--line); }
+    .paso-ic {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: var(--accent-soft); color: var(--accent-ink);
+      display: grid; place-items: center; font-size: 23px;
+    }
+    .paso h3 { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; }
+    .paso p { margin-top: 6px; color: var(--ink-soft); max-width: 48ch; }
+
+    /* Bento */
+    .bento {
+      margin-top: 56px;
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 18px;
+    }
+    .cell {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-card);
+      background: var(--bg-raised);
+      padding: 30px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .cell .ph { font-size: 26px; color: var(--accent-ink); }
+    .cell h3 { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+    .cell p { color: var(--ink-soft); font-size: 15.5px; }
+    .c-audio { grid-column: span 4; background: var(--accent-soft); border-color: transparent; }
+    .c-audio .demo-voice {
+      margin-top: auto; padding-top: 22px;
+      display: flex; align-items: center; gap: 12px;
+      color: var(--accent-ink);
+    }
+    .c-audio .wave { max-width: 280px; }
+    .c-ask { grid-column: span 2; }
+    .c-sync { grid-column: span 3; background: var(--accent-deep); border-color: transparent; }
+    .c-sync h3 { color: var(--on-deep); }
+    .c-sync p { color: var(--on-deep-soft); }
+    .c-sync .ph { color: var(--on-deep); }
+    .c-meet { grid-column: span 3; }
+    .c-report { grid-column: span 2; }
+    .c-team { grid-column: span 4; background: var(--bg-tint); }
+
+    /* Integraciones */
+    .integ-grid { display: grid; grid-template-columns: 6fr 6fr; gap: 64px; align-items: center; }
+    .logos {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    }
+    .logo-tile {
+      border: 1px solid var(--line); border-radius: var(--radius-card);
+      background: var(--bg-raised);
+      display: grid; place-items: center;
+      height: 92px;
+    }
+    .logo-tile img { height: 30px; width: auto; opacity: .85; }
+    .integ-note { margin-top: 18px; font-size: 14px; color: var(--ink-soft); }
+
+    /* Visión */
+    .vision { background: var(--bg-tint); border-block: 1px solid var(--line); }
+    .vision-inner { max-width: 720px; }
+    .eyebrow {
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .14em; color: var(--accent-ink);
+    }
+    .vision h2 { margin-top: 14px; }
+
+    /* CTA final */
+    .cierre { text-align: center; }
+    .cierre .h2 { margin-inline: auto; max-width: 16ch; }
+    .cierre .sub { margin-inline: auto; }
+    .cierre .btn { margin-top: 34px; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--line); padding: 36px 0; }
+    .foot {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; flex-wrap: wrap;
+      font-size: 14px; color: var(--ink-soft);
+    }
+    .foot a:hover { color: var(--ink); }
+    .foot-links { display: flex; gap: 22px; }
+
+    /* ===== Reveal on scroll (solo con JS y sin reduced-motion) ===== */
+    @media (prefers-reduced-motion: no-preference) {
+      .js .reveal {
+        opacity: 0; transform: translateY(22px);
+        transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1);
+      }
+      .js .reveal.in { opacity: 1; transform: none; }
+      .js .chat-body .bubble {
+        opacity: 0; transform: translateY(14px);
+        transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1);
+      }
+      .js .chat.in .bubble { opacity: 1; transform: none; }
+      .js .chat.in .bubble:nth-child(1) { transition-delay: .25s; }
+      .js .chat.in .bubble:nth-child(2) { transition-delay: .85s; }
+      .js .chat.in .bubble:nth-child(3) { transition-delay: 1.55s; }
+      .js .chat.in .bubble:nth-child(4) { transition-delay: 2.15s; }
+    }
+
+    /* ===== Mobile ===== */
+    @media (max-width: 920px) {
+      .hero { padding: 48px 0 72px; }
+      .hero-grid, .como-grid, .integ-grid { grid-template-columns: 1fr; gap: 44px; }
+      .como-sticky { position: static; }
+      .bento { grid-template-columns: 1fr; }
+      .c-audio, .c-ask, .c-sync, .c-meet, .c-report, .c-team { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#"><span class="brand-mark">W</span>Wagent</a>
+      <nav class="nav-links">
+        <a href="#como">Cómo funciona</a>
+        <a href="#funciones">Funciones</a>
+        <a href="#integraciones">Integraciones</a>
+      </nav>
+      <!-- TODO: reemplazar mailto por el link de WhatsApp comercial (https://wa.me/NUMERO) -->
+      <a class="btn btn-primary btn-sm" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Wagent">Pedí una demo</a>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="reveal">
+        <h1>El CRM que se completa <em>solo.</em></h1>
+        <p>Mandale un audio a Wagent por WhatsApp y él registra contactos, oportunidades y pendientes por vos.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Wagent">Pedí una demo</a>
+          <a class="btn btn-ghost" href="#como">Ver cómo funciona</a>
+        </div>
+      </div>
+
+      <div class="chat reveal" aria-label="Ejemplo de conversación con Wagent">
+        <div class="chat-head">
+          <span class="brand-mark">W</span>
+          <div>
+            <strong>Wagent</strong>
+            <span>tu asistente de ventas</span>
+          </div>
+        </div>
+        <div class="chat-body">
+          <div class="bubble out">
+            <div class="voice">
+              <i class="ph-fill ph-play-circle" aria-hidden="true"></i>
+              <span class="wave" aria-hidden="true">
+                <i style="--h:.3"></i><i style="--h:.7"></i><i style="--h:1"></i><i style="--h:.5"></i><i style="--h:.8"></i><i style="--h:.4"></i><i style="--h:.9"></i><i style="--h:.6"></i><i style="--h:.2"></i><i style="--h:.7"></i><i style="--h:1"></i><i style="--h:.4"></i><i style="--h:.6"></i><i style="--h:.3"></i><i style="--h:.8"></i><i style="--h:.5"></i>
+              </span>
+              <span class="dur">0:47</span>
+            </div>
+            <span class="meta">12:38</span>
+          </div>
+          <div class="bubble in">
+            <span class="done"><i class="ph-bold ph-check-circle" aria-hidden="true"></i>Anotado</span><br />
+            Creé la oportunidad con TecnoSur (plan anual) y te dejé el pendiente: mandar la cotización el jueves.
+          </div>
+          <div class="bubble out">
+            ¿En qué quedamos con Martínez?
+            <span class="meta">12:41</span>
+          </div>
+          <div class="bubble in">
+            Le debés la propuesta para el lunes. En la última reunión pidió referencias y precio por volumen.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Problema ===== -->
+  <section class="problema">
+    <div class="wrap reveal">
+      <h2 class="h2">Los CRM mueren porque nadie los carga.</h2>
+      <p class="sub">La venta real pasa en WhatsApp: ahí se negocia, se promete y se cierra. Nada de eso llega al CRM. Wagent da vuelta la ecuación: nadie carga nada, y todo queda registrado.</p>
+    </div>
+  </section>
+
+  <!-- ===== Cómo funciona ===== -->
+  <section id="como">
+    <div class="wrap como-grid">
+      <div class="como-sticky reveal">
+        <h2 class="h2">Funciona como un compañero de equipo.</h2>
+        <p class="sub">No hay nada que aprender ni que configurar. Si sabés mandar un audio, ya sabés usar Wagent.</p>
+      </div>
+      <div class="pasos">
+        <div class="paso reveal">
+          <span class="paso-ic"><i class="ph ph-microphone" aria-hidden="true"></i></span>
+          <div>
+            <h3>Contale</h3>
+            <p>Salís de una reunión y le mandás un audio, como se lo mandarías a un compañero. Desordenado, como te salga.</p>
+          </div>
+        </div>
+        <div class="paso reveal">
+          <span class="paso-ic"><i class="ph ph-database" aria-hidden="true"></i></span>
+          <div>
+            <h3>Wagent registra</h3>
+            <p>Crea el contacto, la empresa, la oportunidad y los pendientes en el CRM. Sin que abras una sola pantalla.</p>
+          </div>
+        </div>
+        <div class="paso reveal">
+          <span class="paso-ic"><i class="ph ph-chat-circle-text" aria-hidden="true"></i></span>
+          <div>
+            <h3>Preguntale</h3>
+            <p>¿En qué quedaste con cada cliente? ¿Qué tenés esta semana? Te contesta por WhatsApp, con todo el contexto.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Funciones (bento) ===== -->
+  <section id="funciones" style="padding-top: 0;">
+    <div class="wrap">
+      <div class="reveal">
+        <h2 class="h2">Todo lo que hablás, queda.</h2>
+        <p class="sub">Wagent junta lo que hoy está repartido entre chats, audios, reuniones y la memoria de cada vendedor.</p>
+      </div>
+      <div class="bento">
+        <div class="cell c-audio reveal">
+          <i class="ph ph-waveform" aria-hidden="true"></i>
+          <h3>Registro por audio o texto</h3>
+          <p>Mandale un audio desordenado de tres minutos. Wagent entiende y completa el CRM por vos.</p>
+          <div class="demo-voice">
+            <i class="ph-fill ph-play-circle" style="font-size:30px" aria-hidden="true"></i>
+            <span class="wave" aria-hidden="true">
+              <i style="--h:.4"></i><i style="--h:.8"></i><i style="--h:.5"></i><i style="--h:1"></i><i style="--h:.6"></i><i style="--h:.3"></i><i style="--h:.9"></i><i style="--h:.5"></i><i style="--h:.7"></i><i style="--h:.4"></i><i style="--h:1"></i><i style="--h:.6"></i><i style="--h:.8"></i><i style="--h:.3"></i><i style="--h:.7"></i><i style="--h:.5"></i><i style="--h:.9"></i><i style="--h:.4"></i>
+            </span>
+            <span class="dur">3:12</span>
+          </div>
+        </div>
+        <div class="cell c-ask reveal">
+          <i class="ph ph-chats-circle" aria-hidden="true"></i>
+          <h3>Preguntale lo que quieras</h3>
+          <p>El historial completo de cada cliente, a una pregunta de distancia.</p>
+        </div>
+        <div class="cell c-sync reveal">
+          <i class="ph ph-arrows-clockwise" aria-hidden="true"></i>
+          <h3>Sync automático de conversaciones</h3>
+          <p>Tus chats con cada cliente se vinculan solos a su ficha. Nada se pierde, aunque nadie registre nada.</p>
+        </div>
+        <div class="cell c-meet reveal">
+          <i class="ph ph-video-camera" aria-hidden="true"></i>
+          <h3>Reuniones y llamadas transcriptas</h3>
+          <p>Quedan asociadas a cada cliente. Consultalas por chat cuando las necesites.</p>
+        </div>
+        <div class="cell c-report reveal">
+          <i class="ph ph-chart-line-up" aria-hidden="true"></i>
+          <h3>Reportes reales</h3>
+          <p>Los datos entran solos, así que los reportes dicen la verdad.</p>
+        </div>
+        <div class="cell c-team reveal">
+          <i class="ph ph-users-three" aria-hidden="true"></i>
+          <h3>Todo tu equipo, un solo CRM</h3>
+          <p>Cada vendedor habla con Wagent desde su WhatsApp. Todo consolida en el mismo lugar, con su dueño asignado. Y si alguien se va, los clientes y su historia se quedan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Integraciones ===== -->
+  <section id="integraciones" style="padding-top: 0;">
+    <div class="wrap integ-grid">
+      <div class="reveal">
+        <h2 class="h2">¿Ya tenés CRM? Mejor.</h2>
+        <p class="sub">Wagent se conecta a tu CRM y lo mantiene vivo con lo que tu equipo ya hace: hablar por WhatsApp. ¿No tenés? Viene con uno completo adentro.</p>
+        <p class="integ-note">Hoy funciona sobre Twenty. Las demás integraciones están en camino: contanos cuál usás y la priorizamos.</p>
+      </div>
+      <div class="reveal">
+        <div class="logos">
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/twenty/71717a" alt="Twenty" loading="lazy" /></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/hubspot/71717a" alt="HubSpot" loading="lazy" /></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/zoho/71717a" alt="Zoho" loading="lazy" /></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/airtable/71717a" alt="Airtable" loading="lazy" /></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/notion/71717a" alt="Notion" loading="lazy" /></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/googlesheets/71717a" alt="Google Sheets" loading="lazy" /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Visión ===== -->
+  <section class="vision">
+    <div class="wrap vision-inner reveal">
+      <span class="eyebrow">Lo que viene</span>
+      <h2 class="h2">Un asistente que también sale a buscar.</h2>
+      <p class="sub">Wagent va a investigar a tus contactos (cambios de trabajo, anuncios, noticias) y te va a avisar cuando haya una excusa real para escribirles. De registrar ventas, a generarlas.</p>
+    </div>
+  </section>
+
+  <!-- ===== CTA final ===== -->
+  <section class="cierre">
+    <div class="wrap reveal">
+      <h2 class="h2">Estamos arrancando en Uruguay.</h2>
+      <p class="sub">Buscamos los primeros equipos comerciales que quieran un CRM vivo sin cargar nada. Sumate a la prueba.</p>
+      <a class="btn btn-primary" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Wagent">Pedí una demo</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap foot">
+      <a class="brand" href="#" style="font-size:17px"><span class="brand-mark" style="width:24px;height:24px;border-radius:7px;font-size:13px">W</span>Wagent</a>
+      <nav class="foot-links">
+        <a href="#como">Cómo funciona</a>
+        <a href="#funciones">Funciones</a>
+        <a href="mailto:joaquin@flow-labs.io">joaquin@flow-labs.io</a>
+      </nav>
+      <span>© 2026 Wagent</span>
+    </div>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add('js');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        }
+      }, { threshold: 0.18 });
+      document.querySelectorAll('.reveal, .chat').forEach(el => io.observe(el));
+    } else {
+      document.querySelectorAll('.reveal, .chat').forEach(el => el.classList.add('in'));
+    }
+  </script>
+</body>
+</html>
