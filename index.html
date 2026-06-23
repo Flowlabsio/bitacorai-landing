@@ -3,11 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wagent: el CRM que se completa solo</title>
-  <meta name="description" content="Mandale un audio de WhatsApp a Wagent después de cada reunión. Él registra contactos, oportunidades y pendientes en tu CRM, y te responde cualquier pregunta sobre tus clientes." />
-  <meta property="og:title" content="Wagent: el CRM que se completa solo" />
-  <meta property="og:description" content="Tu asistente de ventas por WhatsApp. Le contás, él registra. Le preguntás, te responde." />
+  <title>Bitacora: el CRM que se completa solo</title>
+  <meta name="description" content="Mandale un audio de WhatsApp a Bitacora después de cada reunión. Él registra contactos, oportunidades y pendientes en tu CRM, y te responde cualquier pregunta sobre tus clientes." />
+  <meta property="og:title" content="Bitacora: el CRM que se completa solo" />
+  <meta property="og:description" content="Tu asistente de ventas por WhatsApp. Le contás, él anota. Le preguntás, te responde." />
   <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0e7a52" />
+  <meta name="color-scheme" content="light" />
+  <link rel="icon" type="image/svg+xml" href="logos/final/bitacorai-favicon.svg" />
+  <link rel="apple-touch-icon" href="logos/final/bitacorai-icono-app.svg" />
 
   <!-- Satoshi vía Fontshare. Para producción: self-host con @font-face -->
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap" rel="stylesheet" />
@@ -19,42 +23,54 @@
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css"
         integrity="sha384-pPVoXE8ft+zxKtxIDDI7SfTK6y95NHm4qa+hKEg/hs8VkjW5IP+9/dGOPCbDpUPl" crossorigin="anonymous" />
 
-
   <style>
     :root {
-      --bg: #f7f7f5;
+      /* Dirección "WhatsApp-first": papel cálido, verde de marca, formas redondas */
+      --bg: #f3efe7;
       --bg-raised: #ffffff;
-      --bg-tint: #eef4f0;
-      --ink: #1c1c1a;
-      --ink-soft: #5a5a55;
-      --line: #e3e3df;
+      --bg-tint: #ece6da;
+      --ink: #1c2620;
+      --ink-soft: #5c655e;
+      --line: #e2dccf;
+      --line-soft: #ede7db;
       --accent: #0e7a52;
       --accent-ink: #0a5c3e;
       --accent-soft: #d9ece2;
       --accent-deep: #0b3d2c;
       --on-deep: #e8f3ed;
       --on-deep-soft: #a8c9b8;
-      --bubble-out: #d3ecd9;
-      --radius-card: 16px;
-      --radius-bubble: 16px;
-      /* Sistema de radios: botones = pill, cards = 16px, burbujas = 16px */
+      /* Burbujas estilo WhatsApp */
+      --wa-wall: #e5ddd5;
+      --wa-out: #dcf8c6;
+      --wa-in: #ffffff;
+      --wa-tick: #34b7f1;
+      --radius-card: 22px;
+      --radius-bubble: 14px;
+      --shadow-soft: 0 18px 40px -24px rgba(11, 61, 44, .35);
+      --shadow-phone: 0 36px 80px -34px rgba(11, 61, 44, .55);
     }
 
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) and (min-width: 99999px) {
       :root {
-        --bg: #121311;
-        --bg-raised: #1b1d1a;
-        --bg-tint: #182019;
-        --ink: #ecece8;
-        --ink-soft: #a3a39c;
-        --line: #2a2c28;
+        --bg: #0f120f;
+        --bg-raised: #181b17;
+        --bg-tint: #14180f;
+        --ink: #ecefe7;
+        --ink-soft: #9fa89f;
+        --line: #272b25;
+        --line-soft: #20241e;
         --accent: #3ecf8e;
         --accent-ink: #5fdca2;
-        --accent-soft: #1c3328;
+        --accent-soft: #1b3328;
         --accent-deep: #0b3d2c;
         --on-deep: #e8f3ed;
         --on-deep-soft: #a8c9b8;
-        --bubble-out: #1f3a2b;
+        --wa-wall: #0b1410;
+        --wa-out: #1f3a2b;
+        --wa-in: #1d211b;
+        --wa-tick: #4cc7f5;
+        --shadow-soft: 0 18px 40px -24px rgba(0, 0, 0, .6);
+        --shadow-phone: 0 36px 80px -30px rgba(0, 0, 0, .75);
       }
     }
 
@@ -65,6 +81,7 @@
       html { scroll-behavior: auto; }
     }
 
+    html { color-scheme: light; }
     body {
       font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
       background: var(--bg);
@@ -73,176 +90,220 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
 
+    .accent-text { color: var(--accent-ink); }
+    @media (prefers-color-scheme: dark) and (min-width: 99999px) { .accent-text { color: var(--accent); } }
+
     /* ===== Botones ===== */
     .btn {
-      display: inline-flex; align-items: center; gap: 8px;
+      display: inline-flex; align-items: center; gap: 9px;
       border-radius: 999px;
-      padding: 13px 26px;
+      padding: 14px 26px;
       font-weight: 700; font-size: 16px;
       white-space: nowrap;
-      border: 1px solid transparent;
+      border: 1.5px solid transparent;
       cursor: pointer;
-      transition: transform .15s ease, background .2s ease, border-color .2s ease;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
     }
     .btn:active { transform: scale(.98); }
-    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 10px 22px -12px rgba(14,122,82,.7); }
     .btn-primary:hover { background: var(--accent-ink); }
-    @media (prefers-color-scheme: dark) {
-      .btn-primary { color: #0b1f15; }
+    @media (prefers-color-scheme: dark) and (min-width: 99999px) {
+      .btn-primary { color: #08160e; box-shadow: none; }
       .btn-primary:hover { background: var(--accent); filter: brightness(1.08); }
     }
-    .btn-ghost { border-color: var(--line); color: var(--ink); background: transparent; }
+    .btn-ghost { border-color: var(--line); color: var(--ink); background: var(--bg-raised); }
     .btn-ghost:hover { border-color: var(--ink-soft); }
-    .btn-sm { padding: 9px 20px; font-size: 15px; }
+    .btn-sm { padding: 10px 20px; font-size: 15px; }
+    .btn .ph { font-size: 19px; }
 
     /* ===== Nav ===== */
     header {
       position: sticky; top: 0; z-index: 50;
-      height: 68px;
-      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      height: 70px;
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--line);
     }
-    .nav { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .nav { height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
     .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 20px; letter-spacing: -0.02em; }
-    .brand-mark {
-      width: 30px; height: 30px; border-radius: 9px;
-      background: var(--accent); color: #fff;
-      display: grid; place-items: center;
-      font-size: 16px; font-weight: 900;
-    }
-    @media (prefers-color-scheme: dark) { .brand-mark { color: #0b1f15; } }
+    .brand-mark { width: 32px; height: 32px; display: block; }
+    @media (prefers-color-scheme: dark) and (min-width: 99999px) { .brand-mark { color: #08160e; } }
     .nav-links { display: flex; gap: 28px; font-weight: 500; font-size: 15px; color: var(--ink-soft); }
     .nav-links a:hover { color: var(--ink); }
     @media (max-width: 860px) { .nav-links { display: none; } }
 
     /* ===== Hero ===== */
-    .hero { padding: 72px 0 96px; }
+    .hero { padding: 64px 0 84px; position: relative; overflow: hidden; }
     .hero-grid {
-      display: grid; grid-template-columns: 7fr 5fr;
-      gap: 64px; align-items: center;
+      display: grid; grid-template-columns: 1.05fr .95fr;
+      gap: 56px; align-items: center;
     }
+    .pill-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent-soft); color: var(--accent-ink);
+      font-size: 13px; font-weight: 700;
+      padding: 7px 14px; border-radius: 999px;
+    }
+    @media (prefers-color-scheme: dark) and (min-width: 99999px) { .pill-eyebrow { color: var(--accent-ink); } }
     .hero h1 {
-      font-size: clamp(2.6rem, 5.6vw, 4.4rem);
-      font-weight: 900; letter-spacing: -0.035em; line-height: 1.02;
-      max-width: 12ch;
+      margin-top: 20px;
+      font-size: clamp(2.5rem, 5.4vw, 4.2rem);
+      font-weight: 900; letter-spacing: -0.035em; line-height: 1.0;
     }
-    .hero h1 em { font-style: italic; color: var(--accent); line-height: 1.1; padding-bottom: 4px; display: inline-block; }
-    .hero p {
-      margin-top: 22px; font-size: 19px; color: var(--ink-soft);
-      max-width: 44ch;
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero .lead {
+      margin-top: 20px; font-size: 19px; color: var(--ink-soft);
+      max-width: 42ch;
     }
-    .hero-ctas { margin-top: 34px; display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-ctas { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+    .hero-note { margin-top: 14px; font-size: 13.5px; color: var(--ink-soft); display: flex; align-items: center; gap: 7px; }
+    .hero-note .ph { color: var(--accent-ink); font-size: 16px; }
 
-    /* ===== Chat demo (preview del producto: la interfaz ES la conversación) ===== */
-    .chat {
-      background: var(--bg-raised);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-card);
-      box-shadow: 0 24px 60px -28px rgba(14, 60, 40, .25);
+    .hero-benefits { margin-top: 30px; display: flex; flex-direction: column; gap: 12px; }
+    .benefit { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--ink); font-weight: 500; }
+    .benefit .ic {
+      flex: none; width: 30px; height: 30px; border-radius: 50%;
+      background: var(--accent-soft); color: var(--accent-ink);
+      display: grid; place-items: center; font-size: 16px;
+    }
+
+    /* ===== Teléfono / chat WhatsApp ===== */
+    .phone-stage { display: flex; justify-content: center; }
+    .phone {
+      width: 332px; max-width: 100%;
+      background: var(--accent);
+      border-radius: 30px;
+      padding: 9px;
+      box-shadow: var(--shadow-soft);
+      border: none;
+    }
+    .phone-screen {
+      background: var(--wa-wall);
+      border-radius: 22px;
       overflow: hidden;
+      position: relative;
     }
-    .chat-head {
-      display: flex; align-items: center; gap: 12px;
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--line);
+    .wa-head {
+      display: flex; align-items: center; gap: 11px;
+      background: var(--accent); color: #fff;
+      padding: 14px 16px 12px;
     }
-    .chat-head .brand-mark { width: 36px; height: 36px; border-radius: 50%; }
-    .chat-head strong { display: block; font-size: 15px; }
-    .chat-head span { font-size: 13px; color: var(--ink-soft); }
-    .chat-body { padding: 20px 18px 24px; display: flex; flex-direction: column; gap: 12px; }
+    @media (prefers-color-scheme: dark) and (min-width: 99999px) { .wa-head { color: #eafff4; } }
+    .wa-head .ph-arrow { font-size: 18px; opacity: .9; }
+    .wa-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: #fff; color: var(--accent);
+      display: grid; place-items: center; font-weight: 900; font-size: 17px;
+    }
+    .wa-head .who strong { display: block; font-size: 15px; font-weight: 700; }
+    .wa-head .who span { font-size: 12px; opacity: .85; }
+    .wa-head .actions { margin-left: auto; display: flex; gap: 16px; font-size: 18px; opacity: .9; }
 
-    .bubble {
-      max-width: 85%;
-      padding: 12px 16px;
-      font-size: 14.5px; line-height: 1.45;
+    .wa-body {
+      padding: 16px 12px 12px;
+      display: flex; flex-direction: column; gap: 9px;
+      min-height: 376px;
+    }
+    .wa-day {
+      align-self: center; background: var(--bg-tint); color: var(--ink-soft);
+      font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 999px;
+      margin-bottom: 2px;
+    }
+    .wa-bubble {
+      max-width: 82%;
+      padding: 8px 10px 6px;
+      font-size: 13.5px; line-height: 1.4;
       border-radius: var(--radius-bubble);
+      position: relative;
+      box-shadow: 0 1px 1px rgba(0,0,0,.05);
     }
-    .bubble.out {
-      align-self: flex-end;
-      background: var(--bubble-out);
-      border-bottom-right-radius: 5px;
-    }
-    .bubble.in {
-      align-self: flex-start;
-      background: var(--bg-tint);
-      border: 1px solid var(--line);
-      border-bottom-left-radius: 5px;
-    }
-    .bubble .meta { display: block; margin-top: 6px; font-size: 11.5px; color: var(--ink-soft); text-align: right; }
+    .wa-bubble.out { align-self: flex-end; background: var(--wa-out); color: var(--ink); border-bottom-right-radius: 4px; }
+    .wa-bubble.in { align-self: flex-start; background: var(--wa-in); color: var(--ink); border-bottom-left-radius: 4px; }
+    .wa-time { display: inline-flex; align-items: center; gap: 3px; float: right; margin: 4px 0 0 8px; font-size: 10.5px; color: var(--ink-soft); }
+    .wa-time .ph { font-size: 13px; color: var(--wa-tick); }
+    .wa-done { display: inline-flex; align-items: center; gap: 5px; font-weight: 700; color: var(--accent-ink); margin-bottom: 3px; }
+    @media (prefers-color-scheme: dark) and (min-width: 99999px) { .wa-done { color: var(--accent-ink); } }
 
-    .voice { display: flex; align-items: center; gap: 12px; min-width: 230px; }
-    .voice .ph { font-size: 26px; color: var(--accent-ink); }
-    .wave { display: flex; align-items: center; gap: 3px; height: 26px; flex: 1; }
-    .wave i {
-      width: 3px; border-radius: 2px;
-      background: var(--accent-ink); opacity: .75;
-      height: calc(6px + var(--h) * 18px);
-    }
-    .voice .dur { font-size: 12.5px; color: var(--ink-soft); }
+    .wa-voice { display: flex; align-items: center; gap: 10px; min-width: 196px; }
+    .wa-voice .play { font-size: 26px; color: var(--accent-ink); }
+    .wave { display: flex; align-items: center; gap: 2.5px; height: 22px; flex: 1; }
+    .wave i { width: 2.5px; border-radius: 2px; background: var(--accent-ink); opacity: .65; height: calc(5px + var(--h) * 15px); }
+    .wa-voice .dur { font-size: 11px; color: var(--ink-soft); }
 
-    .bubble .done {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-weight: 700; color: var(--accent-ink);
-      margin-bottom: 4px;
+    .wa-input {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 10px 10px;
     }
+    .wa-input .field {
+      flex: 1; background: var(--wa-in); color: var(--ink-soft);
+      border-radius: 999px; padding: 9px 14px; font-size: 13px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .wa-input .mic {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: grid; place-items: center; font-size: 19px; flex: none;
+    }
+    @media (prefers-color-scheme: dark) and (min-width: 99999px) { .wa-input .mic { color: #08160e; } }
 
     /* ===== Secciones ===== */
-    section { padding: 104px 0; }
-    @media (max-width: 768px) { section { padding: 72px 0; } }
+    section { padding: 96px 0; }
+    @media (max-width: 768px) { section { padding: 64px 0; } }
 
-    .h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 900; letter-spacing: -0.03em; line-height: 1.08;
-    }
-    .sub { margin-top: 18px; font-size: 18px; color: var(--ink-soft); max-width: 52ch; }
+    .h2 { font-size: clamp(1.9rem, 4vw, 2.9rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.08; }
+    .sub { margin-top: 16px; font-size: 18px; color: var(--ink-soft); max-width: 52ch; }
+    .center { text-align: center; }
+    .center .sub { margin-inline: auto; }
 
-    /* Problema: declaración editorial */
+    /* Problema */
     .problema { background: var(--bg-tint); border-block: 1px solid var(--line); }
-    .problema .h2 { max-width: 18ch; }
+    .problema .h2 { max-width: 20ch; }
+    .problema .sub { max-width: 60ch; }
 
-    /* Cómo funciona */
-    .como-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: start; }
-    .como-sticky { position: sticky; top: 110px; }
-    .pasos { display: flex; flex-direction: column; }
-    .paso { padding: 30px 0; display: grid; grid-template-columns: 56px 1fr; gap: 20px; }
-    .paso + .paso { border-top: 1px solid var(--line); }
-    .paso-ic {
-      width: 48px; height: 48px; border-radius: 14px;
-      background: var(--accent-soft); color: var(--accent-ink);
-      display: grid; place-items: center; font-size: 23px;
+    /* Cómo funciona: 3 pasos en tarjetas */
+    .pasos-head { max-width: 30ch; }
+    .pasos { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .paso {
+      background: var(--bg-raised); border: 1px solid var(--line);
+      border-radius: var(--radius-card); padding: 28px 26px;
+      position: relative;
     }
-    .paso h3 { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; }
-    .paso p { margin-top: 6px; color: var(--ink-soft); max-width: 48ch; }
+    .paso-num {
+      position: absolute; top: 22px; right: 24px;
+      font-size: 13px; font-weight: 900; color: var(--accent-ink);
+      background: var(--accent-soft); width: 26px; height: 26px;
+      border-radius: 50%; display: grid; place-items: center;
+    }
+    .paso-ic {
+      width: 52px; height: 52px; border-radius: 16px;
+      background: var(--accent-soft); color: var(--accent-ink);
+      display: grid; place-items: center; font-size: 25px; margin-bottom: 18px;
+    }
+    .paso h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+    .paso p { margin-top: 8px; color: var(--ink-soft); font-size: 15px; }
 
     /* Bento */
-    .bento {
-      margin-top: 56px;
-      display: grid; grid-template-columns: repeat(6, 1fr);
-      gap: 18px;
-    }
+    .bento { margin-top: 48px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
     .cell {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-card);
-      background: var(--bg-raised);
-      padding: 30px;
+      border: 1px solid var(--line); border-radius: var(--radius-card);
+      background: var(--bg-raised); padding: 30px;
       display: flex; flex-direction: column; gap: 10px;
     }
     .cell .ph { font-size: 26px; color: var(--accent-ink); }
     .cell h3 { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
     .cell p { color: var(--ink-soft); font-size: 15.5px; }
     .c-audio { grid-column: span 4; background: var(--accent-soft); border-color: transparent; }
-    .c-audio .demo-voice {
-      margin-top: auto; padding-top: 22px;
-      display: flex; align-items: center; gap: 12px;
-      color: var(--accent-ink);
-    }
-    .c-audio .wave { max-width: 280px; }
+    .c-audio .ph { color: var(--accent-ink); }
+    .c-audio h3, .c-audio p { color: var(--accent-deep); }
+    @media (prefers-color-scheme: dark) and (min-width: 99999px) { .c-audio h3, .c-audio p { color: var(--on-deep); } .c-audio .ph { color: var(--accent); } }
+    .c-audio .demo-voice { margin-top: auto; padding-top: 22px; display: flex; align-items: center; gap: 12px; color: var(--accent-ink); }
+    .c-audio .wave { max-width: 280px; height: 26px; }
+    .c-audio .wave i { width: 3px; }
     .c-ask { grid-column: span 2; }
     .c-sync { grid-column: span 3; background: var(--accent-deep); border-color: transparent; }
     .c-sync h3 { color: var(--on-deep); }
@@ -253,67 +314,54 @@
     .c-team { grid-column: span 4; background: var(--bg-tint); }
 
     /* Integraciones */
-    .integ-grid { display: grid; grid-template-columns: 6fr 6fr; gap: 64px; align-items: center; }
-    .logos {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
-    }
+    .integ-grid { display: grid; grid-template-columns: 6fr 6fr; gap: 56px; align-items: center; }
+    .logos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
     .logo-tile {
-      border: 1px solid var(--line); border-radius: var(--radius-card);
-      background: var(--bg-raised);
-      display: grid; place-items: center;
-      height: 92px;
+      border: 1px solid var(--line); border-radius: 18px;
+      background: var(--bg-raised); display: grid; place-items: center; height: 92px;
     }
     .logo-tile img { height: 30px; width: auto; opacity: .85; }
     .integ-note { margin-top: 18px; font-size: 14px; color: var(--ink-soft); }
 
     /* Visión */
-    .vision { background: var(--bg-tint); border-block: 1px solid var(--line); }
+    .vision { background: var(--accent-deep); border-block: 1px solid var(--accent-deep); color: var(--on-deep); }
     .vision-inner { max-width: 720px; }
-    .eyebrow {
-      font-size: 12px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .14em; color: var(--accent-ink);
-    }
-    .vision h2 { margin-top: 14px; }
+    .vision .eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: var(--on-deep-soft); }
+    .vision .h2 { margin-top: 14px; color: var(--on-deep); }
+    .vision .sub { color: var(--on-deep-soft); }
 
     /* CTA final */
     .cierre { text-align: center; }
     .cierre .h2 { margin-inline: auto; max-width: 16ch; }
     .cierre .sub { margin-inline: auto; }
-    .cierre .btn { margin-top: 34px; }
+    .cierre .btn { margin-top: 30px; }
+    .cierre .hero-note { justify-content: center; }
 
     /* Footer */
     footer { border-top: 1px solid var(--line); padding: 36px 0; }
-    .foot {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 20px; flex-wrap: wrap;
-      font-size: 14px; color: var(--ink-soft);
-    }
+    .foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 14px; color: var(--ink-soft); }
     .foot a:hover { color: var(--ink); }
     .foot-links { display: flex; gap: 22px; }
 
-    /* ===== Reveal on scroll (solo con JS y sin reduced-motion) ===== */
+    /* ===== Reveal + animación del chat ===== */
     @media (prefers-reduced-motion: no-preference) {
-      .js .reveal {
-        opacity: 0; transform: translateY(22px);
-        transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1);
-      }
+      .js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1); }
       .js .reveal.in { opacity: 1; transform: none; }
-      .js .chat-body .bubble {
-        opacity: 0; transform: translateY(14px);
-        transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1);
-      }
-      .js .chat.in .bubble { opacity: 1; transform: none; }
-      .js .chat.in .bubble:nth-child(1) { transition-delay: .25s; }
-      .js .chat.in .bubble:nth-child(2) { transition-delay: .85s; }
-      .js .chat.in .bubble:nth-child(3) { transition-delay: 1.55s; }
-      .js .chat.in .bubble:nth-child(4) { transition-delay: 2.15s; }
+      .js .wa-body .wa-bubble, .js .wa-body .wa-day { opacity: 0; transform: translateY(12px); transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1); }
+      .js .phone.in .wa-day { opacity: 1; transform: none; transition-delay: .15s; }
+      .js .phone.in .wa-bubble:nth-of-type(1) { opacity: 1; transform: none; transition-delay: .45s; }
+      .js .phone.in .wa-bubble:nth-of-type(2) { opacity: 1; transform: none; transition-delay: 1.15s; }
+      .js .phone.in .wa-bubble:nth-of-type(3) { opacity: 1; transform: none; transition-delay: 1.8s; }
+      .js .phone.in .wa-bubble:nth-of-type(4) { opacity: 1; transform: none; transition-delay: 2.5s; }
     }
 
     /* ===== Mobile ===== */
     @media (max-width: 920px) {
-      .hero { padding: 48px 0 72px; }
-      .hero-grid, .como-grid, .integ-grid { grid-template-columns: 1fr; gap: 44px; }
-      .como-sticky { position: static; }
+      .hero { padding: 40px 0 64px; }
+      .hero-grid, .integ-grid { grid-template-columns: 1fr; gap: 44px; }
+      .hero-content { order: 1; }
+      .phone-stage { order: 2; }
+      .pasos { grid-template-columns: 1fr; }
       .bento { grid-template-columns: 1fr; }
       .c-audio, .c-ask, .c-sync, .c-meet, .c-report, .c-team { grid-column: span 1; }
     }
@@ -321,60 +369,94 @@
 </head>
 <body>
 
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="bi-logo" viewBox="0 0 80 80">
+      <rect x="15" y="9" width="50" height="62" rx="9" fill="#075E54"/>
+      <rect x="15" y="9" width="10" height="62" rx="5" fill="#053f39"/>
+      <path d="M49 9 h11 v22 l-5.5 -5 -5.5 5 z" fill="#25D366"/>
+      <path d="M44,32c3,0,5.5,2.5,5.5,5.5v.7c0,2-2.2,2.4-4,2.8,1.9.4,4.1,1.1,4,2.6v.9c0,3-2.5,5.5-5.5,5.5s-5.5-2.5-5.5-5.5v-7c0-3,2.5-5.5,5.5-5.5Z" fill="#ffffff"/>
+      <path d="M34 47 A 10 10 0 0 0 54 47" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+      <line x1="44" y1="57" x2="44" y2="63" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+      <line x1="39" y1="64" x2="49" y2="64" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
   <header>
     <div class="wrap nav">
-      <a class="brand" href="#"><span class="brand-mark">W</span>Wagent</a>
+      <a class="brand" href="#"><svg class="brand-mark" viewBox="0 0 80 80" aria-hidden="true"><use href="#bi-logo"/></svg>Bitacora</a>
       <nav class="nav-links">
         <a href="#como">Cómo funciona</a>
         <a href="#funciones">Funciones</a>
         <a href="#integraciones">Integraciones</a>
       </nav>
-      <!-- TODO: reemplazar mailto por el link de WhatsApp comercial (https://wa.me/NUMERO) -->
-      <a class="btn btn-primary btn-sm" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Wagent">Pedí una demo</a>
+      <!-- TODO: reemplazar mailto por el link de WhatsApp comercial (https://wa.me/NUMERO?text=...) -->
+      <a class="btn btn-primary btn-sm" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Bitacora"><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>Probalo gratis</a>
     </div>
   </header>
 
   <!-- ===== Hero ===== -->
   <section class="hero">
     <div class="wrap hero-grid">
-      <div class="reveal">
-        <h1>El CRM que se completa <em>solo.</em></h1>
-        <p>Mandale un audio a Wagent por WhatsApp y él registra contactos, oportunidades y pendientes por vos.</p>
+      <div class="hero-content reveal">
+        <span class="pill-eyebrow"><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>Tu CRM, dentro de WhatsApp</span>
+        <h1>Vos le contás.<br>Bitacora lo <em>anota.</em></h1>
+        <p class="lead">Salís de una reunión, le mandás un audio a Bitacora por WhatsApp y tu CRM queda completo. Sin abrir una sola pantalla.</p>
+
+        <div class="hero-benefits">
+          <div class="benefit"><span class="ic"><i class="ph-bold ph-microphone" aria-hidden="true"></i></span>Contale como a un compañero de equipo</div>
+          <div class="benefit"><span class="ic"><i class="ph-bold ph-database" aria-hidden="true"></i></span>Registra contactos, oportunidades y pendientes</div>
+          <div class="benefit"><span class="ic"><i class="ph-bold ph-chat-circle-text" aria-hidden="true"></i></span>Preguntale lo que quieras, te responde al toque</div>
+        </div>
+
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Wagent">Pedí una demo</a>
+          <a class="btn btn-primary" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Bitacora"><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>Probalo gratis</a>
           <a class="btn btn-ghost" href="#como">Ver cómo funciona</a>
         </div>
+        <p class="hero-note"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>Sin instalar nada. Si sabés mandar un audio, ya sabés usarlo.</p>
       </div>
 
-      <div class="chat reveal" aria-label="Ejemplo de conversación con Wagent">
-        <div class="chat-head">
-          <span class="brand-mark">W</span>
-          <div>
-            <strong>Wagent</strong>
-            <span>tu asistente de ventas</span>
-          </div>
-        </div>
-        <div class="chat-body">
-          <div class="bubble out">
-            <div class="voice">
-              <i class="ph-fill ph-play-circle" aria-hidden="true"></i>
-              <span class="wave" aria-hidden="true">
-                <i style="--h:.3"></i><i style="--h:.7"></i><i style="--h:1"></i><i style="--h:.5"></i><i style="--h:.8"></i><i style="--h:.4"></i><i style="--h:.9"></i><i style="--h:.6"></i><i style="--h:.2"></i><i style="--h:.7"></i><i style="--h:1"></i><i style="--h:.4"></i><i style="--h:.6"></i><i style="--h:.3"></i><i style="--h:.8"></i><i style="--h:.5"></i>
-              </span>
-              <span class="dur">0:47</span>
+      <div class="phone-stage reveal">
+        <div class="phone" aria-label="Ejemplo de conversación con Bitacora por WhatsApp">
+          <div class="phone-screen">
+            <div class="wa-head">
+              <i class="ph-bold ph-caret-left ph-arrow" aria-hidden="true"></i>
+              <span class="wa-avatar"><svg viewBox="0 0 80 80" style="width:25px;height:25px" aria-hidden="true"><use href="#bi-logo"/></svg></span>
+              <div class="who">
+                <strong>Bitacora</strong>
+                <span>en línea</span>
+              </div>
+              <span class="actions" aria-hidden="true"><i class="ph ph-video-camera"></i><i class="ph ph-phone"></i></span>
             </div>
-            <span class="meta">12:38</span>
-          </div>
-          <div class="bubble in">
-            <span class="done"><i class="ph-bold ph-check-circle" aria-hidden="true"></i>Anotado</span><br />
-            Creé la oportunidad con TecnoSur (plan anual) y te dejé el pendiente: mandar la cotización el jueves.
-          </div>
-          <div class="bubble out">
-            ¿En qué quedamos con Martínez?
-            <span class="meta">12:41</span>
-          </div>
-          <div class="bubble in">
-            Le debés la propuesta para el lunes. En la última reunión pidió referencias y precio por volumen.
+            <div class="wa-body">
+              <span class="wa-day">HOY</span>
+              <div class="wa-bubble out">
+                <div class="wa-voice">
+                  <i class="ph-fill ph-play-circle play" aria-hidden="true"></i>
+                  <span class="wave" aria-hidden="true">
+                    <i style="--h:.3"></i><i style="--h:.7"></i><i style="--h:1"></i><i style="--h:.5"></i><i style="--h:.8"></i><i style="--h:.4"></i><i style="--h:.9"></i><i style="--h:.6"></i><i style="--h:.2"></i><i style="--h:.7"></i><i style="--h:1"></i><i style="--h:.4"></i><i style="--h:.6"></i><i style="--h:.3"></i>
+                  </span>
+                  <span class="dur">0:47</span>
+                </div>
+                <span class="wa-time">12:38 <i class="ph-bold ph-checks" aria-hidden="true"></i></span>
+              </div>
+              <div class="wa-bubble in">
+                <span class="wa-done"><i class="ph-bold ph-check-circle" aria-hidden="true"></i>Anotado</span><br />
+                Creé la oportunidad con TecnoSur (plan anual) y te dejé el pendiente: mandar la cotización el jueves.
+                <span class="wa-time">12:38</span>
+              </div>
+              <div class="wa-bubble out">
+                ¿En qué quedamos con Martínez?
+                <span class="wa-time">12:41 <i class="ph-bold ph-checks" aria-hidden="true"></i></span>
+              </div>
+              <div class="wa-bubble in">
+                Le debés la propuesta para el lunes. En la última reunión pidió referencias y precio por volumen.
+                <span class="wa-time">12:41</span>
+              </div>
+            </div>
+            <div class="wa-input">
+              <span class="field"><i class="ph ph-plus" aria-hidden="true"></i>Mensaje</span>
+              <span class="mic"><i class="ph-fill ph-microphone" aria-hidden="true"></i></span>
+            </div>
           </div>
         </div>
       </div>
@@ -385,38 +467,35 @@
   <section class="problema">
     <div class="wrap reveal">
       <h2 class="h2">Los CRM mueren porque nadie los carga.</h2>
-      <p class="sub">La venta real pasa en WhatsApp: ahí se negocia, se promete y se cierra. Nada de eso llega al CRM. Wagent da vuelta la ecuación: nadie carga nada, y todo queda registrado.</p>
+      <p class="sub">La venta real pasa en WhatsApp: ahí se negocia, se promete y se cierra. Nada de eso llega al CRM. Bitacora da vuelta la ecuación: nadie carga nada, y todo queda registrado.</p>
     </div>
   </section>
 
   <!-- ===== Cómo funciona ===== -->
   <section id="como">
-    <div class="wrap como-grid">
-      <div class="como-sticky reveal">
+    <div class="wrap">
+      <div class="pasos-head reveal">
         <h2 class="h2">Funciona como un compañero de equipo.</h2>
-        <p class="sub">No hay nada que aprender ni que configurar. Si sabés mandar un audio, ya sabés usar Wagent.</p>
+        <p class="sub">No hay nada que aprender ni que configurar. Le contás lo que pasó y se encarga del resto.</p>
       </div>
       <div class="pasos">
         <div class="paso reveal">
+          <span class="paso-num">1</span>
           <span class="paso-ic"><i class="ph ph-microphone" aria-hidden="true"></i></span>
-          <div>
-            <h3>Contale</h3>
-            <p>Salís de una reunión y le mandás un audio, como se lo mandarías a un compañero. Desordenado, como te salga.</p>
-          </div>
+          <h3>Contale</h3>
+          <p>Salís de una reunión y le mandás un audio, como se lo mandarías a un compañero. Desordenado, como te salga.</p>
         </div>
         <div class="paso reveal">
+          <span class="paso-num">2</span>
           <span class="paso-ic"><i class="ph ph-database" aria-hidden="true"></i></span>
-          <div>
-            <h3>Wagent registra</h3>
-            <p>Crea el contacto, la empresa, la oportunidad y los pendientes en el CRM. Sin que abras una sola pantalla.</p>
-          </div>
+          <h3>Bitacora registra</h3>
+          <p>Crea el contacto, la empresa, la oportunidad y los pendientes en el CRM. Sin que abras una sola pantalla.</p>
         </div>
         <div class="paso reveal">
+          <span class="paso-num">3</span>
           <span class="paso-ic"><i class="ph ph-chat-circle-text" aria-hidden="true"></i></span>
-          <div>
-            <h3>Preguntale</h3>
-            <p>¿En qué quedaste con cada cliente? ¿Qué tenés esta semana? Te contesta por WhatsApp, con todo el contexto.</p>
-          </div>
+          <h3>Preguntale</h3>
+          <p>¿En qué quedaste con cada cliente? ¿Qué tenés esta semana? Te contesta por WhatsApp, con todo el contexto.</p>
         </div>
       </div>
     </div>
@@ -427,13 +506,13 @@
     <div class="wrap">
       <div class="reveal">
         <h2 class="h2">Todo lo que hablás, queda.</h2>
-        <p class="sub">Wagent junta lo que hoy está repartido entre chats, audios, reuniones y la memoria de cada vendedor.</p>
+        <p class="sub">Bitacora junta lo que hoy está repartido entre chats, audios, reuniones y la memoria de cada vendedor.</p>
       </div>
       <div class="bento">
         <div class="cell c-audio reveal">
           <i class="ph ph-waveform" aria-hidden="true"></i>
           <h3>Registro por audio o texto</h3>
-          <p>Mandale un audio desordenado de tres minutos. Wagent entiende y completa el CRM por vos.</p>
+          <p>Mandale un audio desordenado de tres minutos. Bitacora entiende y completa el CRM por vos.</p>
           <div class="demo-voice">
             <i class="ph-fill ph-play-circle" style="font-size:30px" aria-hidden="true"></i>
             <span class="wave" aria-hidden="true">
@@ -465,7 +544,7 @@
         <div class="cell c-team reveal">
           <i class="ph ph-users-three" aria-hidden="true"></i>
           <h3>Todo tu equipo, un solo CRM</h3>
-          <p>Cada vendedor habla con Wagent desde su WhatsApp. Todo consolida en el mismo lugar, con su dueño asignado. Y si alguien se va, los clientes y su historia se quedan.</p>
+          <p>Cada vendedor habla con Bitacora desde su WhatsApp. Todo consolida en el mismo lugar, con su dueño asignado. Y si alguien se va, los clientes y su historia se quedan.</p>
         </div>
       </div>
     </div>
@@ -476,7 +555,7 @@
     <div class="wrap integ-grid">
       <div class="reveal">
         <h2 class="h2">¿Ya tenés CRM? Mejor.</h2>
-        <p class="sub">Wagent se conecta a tu CRM y lo mantiene vivo con lo que tu equipo ya hace: hablar por WhatsApp. ¿No tenés? Viene con uno completo adentro.</p>
+        <p class="sub">Bitacora se conecta a tu CRM y lo mantiene vivo con lo que tu equipo ya hace: hablar por WhatsApp. ¿No tenés? Viene con uno completo adentro.</p>
         <p class="integ-note">Hoy funciona sobre Twenty. Las demás integraciones están en camino: contanos cuál usás y la priorizamos.</p>
       </div>
       <div class="reveal">
@@ -497,7 +576,7 @@
     <div class="wrap vision-inner reveal">
       <span class="eyebrow">Lo que viene</span>
       <h2 class="h2">Un asistente que también sale a buscar.</h2>
-      <p class="sub">Wagent va a investigar a tus contactos (cambios de trabajo, anuncios, noticias) y te va a avisar cuando haya una excusa real para escribirles. De registrar ventas, a generarlas.</p>
+      <p class="sub">Bitacora va a investigar a tus contactos (cambios de trabajo, anuncios, noticias) y te va a avisar cuando haya una excusa real para escribirles. De registrar ventas, a generarlas.</p>
     </div>
   </section>
 
@@ -506,19 +585,20 @@
     <div class="wrap reveal">
       <h2 class="h2">Estamos arrancando en Uruguay.</h2>
       <p class="sub">Buscamos los primeros equipos comerciales que quieran un CRM vivo sin cargar nada. Sumate a la prueba.</p>
-      <a class="btn btn-primary" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Wagent">Pedí una demo</a>
+      <a class="btn btn-primary" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Bitacora"><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>Probalo gratis</a>
+      <p class="hero-note"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>Te escribimos por WhatsApp y lo probás en tu próxima reunión.</p>
     </div>
   </section>
 
   <footer>
     <div class="wrap foot">
-      <a class="brand" href="#" style="font-size:17px"><span class="brand-mark" style="width:24px;height:24px;border-radius:7px;font-size:13px">W</span>Wagent</a>
+      <a class="brand" href="#" style="font-size:17px"><svg class="brand-mark" style="width:24px;height:24px" viewBox="0 0 80 80" aria-hidden="true"><use href="#bi-logo"/></svg>Bitacora</a>
       <nav class="foot-links">
         <a href="#como">Cómo funciona</a>
         <a href="#funciones">Funciones</a>
         <a href="mailto:joaquin@flow-labs.io">joaquin@flow-labs.io</a>
       </nav>
-      <span>© 2026 Wagent</span>
+      <span>© 2026 Bitacora</span>
     </div>
   </footer>
 
@@ -531,9 +611,9 @@
           if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
         }
       }, { threshold: 0.18 });
-      document.querySelectorAll('.reveal, .chat').forEach(el => io.observe(el));
+      document.querySelectorAll('.reveal, .phone').forEach(el => io.observe(el));
     } else {
-      document.querySelectorAll('.reveal, .chat').forEach(el => el.classList.add('in'));
+      document.querySelectorAll('.reveal, .phone').forEach(el => el.classList.add('in'));
     }
   </script>
 </body>

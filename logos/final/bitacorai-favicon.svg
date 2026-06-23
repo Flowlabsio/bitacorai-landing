@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="9 8 62 62" width="62" height="62" role="img" aria-label="Bitacora">
+  <rect x="15" y="9" width="50" height="62" rx="9" fill="#075E54"/>
+  <rect x="15" y="9" width="10" height="62" rx="5" fill="#053f39"/>
+  <path d="M49 9 h11 v22 l-5.5 -5 -5.5 5 z" fill="#25D366"/>
+  <path d="M44,32c3,0,5.5,2.5,5.5,5.5v.7c0,2-2.2,2.4-4,2.8,1.9.4,4.1,1.1,4,2.6v.9c0,3-2.5,5.5-5.5,5.5s-5.5-2.5-5.5-5.5v-7c0-3,2.5-5.5,5.5-5.5Z" fill="#ffffff"/>
+  <path d="M34 47 A 10 10 0 0 0 54 47" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+  <line x1="44" y1="57" x2="44" y2="63" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+  <line x1="39" y1="64" x2="49" y2="64" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+</svg>
