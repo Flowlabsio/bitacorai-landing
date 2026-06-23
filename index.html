@@ -368,8 +368,8 @@
 
     /* ===== Reveal + animación del chat ===== */
     @media (prefers-reduced-motion: no-preference) {
-      .js .reveal { opacity: 0; transform: translateY(24px); filter: blur(8px); transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1), filter .7s cubic-bezier(.16,1,.3,1); }
-      .js .reveal.in { opacity: 1; transform: none; filter: none; }
+      .js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1); }
+      .js .reveal.in { opacity: 1; transform: none; }
       .js .wa-head .who span::before { animation: onlinePulse 2.2s ease-out infinite; }
       .js .wa-body .seq.show { animation: popIn .34s ease both; }
       .js .dots i { animation: dot 1.2s infinite ease-in-out; }
