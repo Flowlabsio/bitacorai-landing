@@ -240,7 +240,9 @@
     .wa-voice .play { font-size: 26px; color: var(--accent-ink); }
     .wave { display: flex; align-items: center; gap: 2.5px; height: 22px; flex: 1; }
     .wave i { width: 2.5px; border-radius: 2px; background: var(--accent-ink); opacity: .65; height: calc(5px + var(--h) * 15px); }
-    .wa-voice .dur { font-size: 11px; color: var(--ink-soft); }
+    .dur { font-size: 11px; color: var(--ink-soft); }
+    .wa-voice-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 5px; }
+    .wa-voice-foot .wa-time { float: none; margin: 0; }
 
     .wa-input {
       display: flex; align-items: center; gap: 8px;
@@ -467,9 +469,8 @@
                   <span class="wave" aria-hidden="true">
                     <i style="--h:.3"></i><i style="--h:.7"></i><i style="--h:1"></i><i style="--h:.5"></i><i style="--h:.8"></i><i style="--h:.4"></i><i style="--h:.9"></i><i style="--h:.6"></i><i style="--h:.2"></i><i style="--h:.7"></i><i style="--h:1"></i><i style="--h:.4"></i><i style="--h:.6"></i><i style="--h:.3"></i>
                   </span>
-                  <span class="dur">0:47</span>
                 </div>
-                <span class="wa-time">12:38 <i class="ph-bold ph-check tick" aria-hidden="true"></i></span>
+                <div class="wa-voice-foot"><span class="dur">0:47</span><span class="wa-time">12:38 <i class="ph-bold ph-check tick" aria-hidden="true"></i></span></div>
               </div>
               <div class="wa-bubble in typing seq" id="t1"><span class="dots"><i></i><i></i><i></i></span></div>
               <div class="wa-bubble in seq" id="m2">
