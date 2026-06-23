@@ -356,15 +356,34 @@
       .js .phone.in .wa-bubble:nth-of-type(4) { opacity: 1; transform: none; transition-delay: 2.5s; }
     }
 
-    /* ===== Mobile ===== */
-    @media (max-width: 920px) {
-      .hero { padding: 40px 0 64px; }
+    /* ===== Responsive ===== */
+    /* Tablet: hero y bento a 2 columnas */
+    @media (max-width: 960px) {
+      .hero { padding: 48px 0 64px; }
       .hero-grid, .integ-grid { grid-template-columns: 1fr; gap: 44px; }
       .hero-content { order: 1; }
       .phone-stage { order: 2; }
+      .bento { grid-template-columns: repeat(2, 1fr); }
+      .c-audio, .c-ask, .c-sync, .c-meet, .c-report, .c-team { grid-column: span 1; }
+    }
+    /* Tablet chico / phone landscape: todo a 1 columna */
+    @media (max-width: 760px) {
+      .hero { padding: 36px 0 52px; }
       .pasos { grid-template-columns: 1fr; }
       .bento { grid-template-columns: 1fr; }
-      .c-audio, .c-ask, .c-sync, .c-meet, .c-report, .c-team { grid-column: span 1; }
+    }
+    /* Teléfono */
+    @media (max-width: 600px) {
+      html, body { overflow-x: hidden; }
+      .wrap { padding: 0 18px; }
+      section { padding: 52px 0; }
+      .nav { gap: 12px; }
+      header .btn-sm { padding: 9px 15px; font-size: 14px; }
+      .hero .lead { font-size: 17px; }
+      .hero-ctas { flex-direction: column; align-items: stretch; gap: 12px; }
+      .hero-ctas .btn, .cierre .btn { width: 100%; justify-content: center; }
+      .sub { font-size: 16px; }
+      .foot { flex-direction: column; align-items: flex-start; gap: 14px; }
     }
   </style>
 </head>
