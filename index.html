@@ -707,16 +707,16 @@
 
       function play() {
         at(300,   function () { show('m1'); wave.classList.add('live'); });        // 1. onda animada
-        at(2200,  function () { wave.classList.remove('live'); });                  // 2. se para
-        at(2700,  function () { tick1.className = 'ph-bold ph-checks tick read'; }); // 3. tick celeste
-        at(3300,  function () { show('t1'); });                                     //    bot escribiendo
-        at(4800,  function () { hide('t1'); show('m2'); });                         // 4. responde el bot
-        at(7200,  function () { show('t2'); });                                     // 5. se escribe Martínez
-        at(8400,  function () { hide('t2'); show('m3'); });                         // 6. se manda (tick gris)
-        at(9200,  function () { tick3.className = 'ph-bold ph-checks tick read'; }); // 7. tick celeste
-        at(9800,  function () { show('t3'); });                                     //    bot escribiendo
-        at(11200, function () { hide('t3'); show('m4'); });                         // 8. último mensaje
-        at(16200, function () { reset(); at(800, play); });                         //    limpia y repite (5s después)
+        at(1200,  function () { wave.classList.remove('live'); });                  // 2. se para
+        at(1500,  function () { tick1.className = 'ph-bold ph-checks tick read'; }); // 3. tick celeste
+        at(2100,  function () { show('t1'); });                                     //    bot escribiendo
+        at(3600,  function () { hide('t1'); show('m2'); });                         // 4. responde el bot
+        at(6000,  function () { show('t2'); });                                     // 5. se escribe Martínez
+        at(7200,  function () { hide('t2'); show('m3'); });                         // 6. se manda (tick gris)
+        at(8000,  function () { tick3.className = 'ph-bold ph-checks tick read'; }); // 7. tick celeste
+        at(8600,  function () { show('t3'); });                                     //    bot escribiendo
+        at(10000, function () { hide('t3'); show('m4'); });                         // 8. último mensaje
+        at(15000, function () { reset(); at(800, play); });                         //    limpia y repite (5s después)
       }
       play();
     })();
