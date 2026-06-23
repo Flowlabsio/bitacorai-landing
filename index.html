@@ -208,7 +208,7 @@
     .wa-body {
       padding: 16px 12px 12px;
       display: flex; flex-direction: column; gap: 9px;
-      min-height: 376px;
+      height: 392px; overflow: hidden;
     }
     .wa-day {
       align-self: center; background: var(--bg-tint); color: var(--ink-soft);
@@ -230,6 +230,11 @@
     .wa-time .tick.read { color: var(--wa-tick); }
     .wa-done { display: inline-flex; align-items: center; gap: 5px; font-weight: 700; color: var(--accent-ink); margin-bottom: 3px; }
     @media (prefers-color-scheme: dark) and (min-width: 99999px) { .wa-done { color: var(--accent-ink); } }
+    .wa-bubble.typing { padding: 11px 14px; }
+    .dots { display: inline-flex; gap: 4px; }
+    .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-soft); opacity: .5; display: block; }
+    .js .wa-body .seq { display: none; }
+    .js .wa-body .seq.show { display: block; }
 
     .wa-voice { display: flex; align-items: center; gap: 10px; min-width: 196px; }
     .wa-voice .play { font-size: 26px; color: var(--accent-ink); }
@@ -350,18 +355,18 @@
     @media (prefers-reduced-motion: no-preference) {
       .js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1); }
       .js .reveal.in { opacity: 1; transform: none; }
-      .js .wa-body .wa-bubble, .js .wa-body .wa-day { opacity: 0; transform: translateY(12px); transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1); }
-      .js .phone.in .wa-day { opacity: 1; transform: none; transition-delay: .15s; }
-      .js .phone.in .wa-bubble:nth-of-type(1) { opacity: 1; transform: none; transition-delay: .45s; }
-      .js .phone.in .wa-bubble:nth-of-type(2) { opacity: 1; transform: none; transition-delay: 1.15s; }
-      .js .phone.in .wa-bubble:nth-of-type(3) { opacity: 1; transform: none; transition-delay: 1.8s; }
-      .js .phone.in .wa-bubble:nth-of-type(4) { opacity: 1; transform: none; transition-delay: 2.5s; }
+      .js .wa-body .seq.show { animation: popIn .34s ease both; }
+      .js .dots i { animation: dot 1.2s infinite ease-in-out; }
+      .js .dots i:nth-child(2) { animation-delay: .2s; }
+      .js .dots i:nth-child(3) { animation-delay: .4s; }
       .js .wave.live i { animation: waveBar 1.1s ease-in-out infinite; transform-origin: center; }
       .js .wave.live i:nth-child(3n)   { animation-duration: 1.35s; animation-delay: -.2s; }
       .js .wave.live i:nth-child(3n+1) { animation-duration: .85s;  animation-delay: -.6s; }
       .js .wave.live i:nth-child(3n+2) { animation-duration: 1.05s; animation-delay: -.4s; }
     }
     @keyframes waveBar { 0%, 100% { transform: scaleY(.45); } 50% { transform: scaleY(1); } }
+    @keyframes popIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    @keyframes dot { 0%, 60%, 100% { transform: translateY(0); opacity: .4; } 30% { transform: translateY(-4px); opacity: .9; } }
 
     /* ===== Responsive ===== */
     /* Tablet: hero y bento a 2 columnas */
@@ -456,7 +461,7 @@
             </div>
             <div class="wa-body">
               <span class="wa-day">HOY</span>
-              <div class="wa-bubble out">
+              <div class="wa-bubble out seq" id="m1">
                 <div class="wa-voice">
                   <i class="ph-fill ph-play-circle play" aria-hidden="true"></i>
                   <span class="wave" aria-hidden="true">
@@ -466,16 +471,19 @@
                 </div>
                 <span class="wa-time">12:38 <i class="ph-bold ph-check tick" aria-hidden="true"></i></span>
               </div>
-              <div class="wa-bubble in">
+              <div class="wa-bubble in typing seq" id="t1"><span class="dots"><i></i><i></i><i></i></span></div>
+              <div class="wa-bubble in seq" id="m2">
                 <span class="wa-done"><i class="ph-bold ph-check-circle" aria-hidden="true"></i>Registrado</span><br />
                 Registré la oportunidad con TecnoSur para el plan anual y creé una tarea pendiente: enviar la cotización el jueves.
                 <span class="wa-time">12:38</span>
               </div>
-              <div class="wa-bubble out">
+              <div class="wa-bubble out typing seq" id="t2"><span class="dots"><i></i><i></i><i></i></span></div>
+              <div class="wa-bubble out seq" id="m3">
                 ¿En qué quedamos con Martínez?
-                <span class="wa-time">12:41 <i class="ph-bold ph-checks tick read" aria-hidden="true"></i></span>
+                <span class="wa-time">12:41 <i class="ph-bold ph-check tick" aria-hidden="true"></i></span>
               </div>
-              <div class="wa-bubble in">
+              <div class="wa-bubble in typing seq" id="t3"><span class="dots"><i></i><i></i><i></i></span></div>
+              <div class="wa-bubble in seq" id="m4">
                 Tienes pendiente enviarle la propuesta el lunes. En la última reunión solicitó referencias y precios por volumen.
                 <span class="wa-time">12:41</span>
               </div>
@@ -648,23 +656,50 @@
       document.querySelectorAll('.reveal, .phone').forEach(el => el.classList.add('in'));
     }
 
-    // Secuencia de la nota de voz: envía (onda animada, tick gris) -> enviado (onda quieta, ticks celestes) -> repite cada 5s
+    // Secuencia guionada del chat, en loop
     (function () {
-      const bubble = document.querySelector('.hero .wa-bubble.out');
-      const wave = bubble && bubble.querySelector('.wave');
-      const tick = bubble && bubble.querySelector('.tick');
-      if (!wave || !tick) return;
-      if (reduce) { tick.className = 'ph-bold ph-checks tick read'; return; }
-      function run() {
-        wave.classList.add('live');
-        tick.className = 'ph-bold ph-check tick';
-        setTimeout(function () {
-          wave.classList.remove('live');
-          tick.className = 'ph-bold ph-checks tick read';
-        }, 2200);
+      const ids = ['m1', 't1', 'm2', 't2', 'm3', 't3', 'm4'];
+      const el = {};
+      ids.forEach(function (id) { el[id] = document.getElementById(id); });
+      if (!el.m1) return;
+      const wave = el.m1.querySelector('.wave');
+      const tick1 = el.m1.querySelector('.tick');
+      const tick3 = el.m3.querySelector('.tick');
+
+      if (reduce) {
+        ['m1', 'm2', 'm3', 'm4'].forEach(function (id) { el[id].classList.add('show'); });
+        tick1.className = 'ph-bold ph-checks tick read';
+        tick3.className = 'ph-bold ph-checks tick read';
+        return;
       }
-      run();
-      setInterval(run, 5000);
+
+      let timers = [];
+      function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+      function show(id) { el[id].classList.add('show'); }
+      function hide(id) { el[id].classList.remove('show'); }
+
+      function reset() {
+        timers.forEach(clearTimeout); timers = [];
+        ids.forEach(hide);
+        wave.classList.remove('live');
+        tick1.className = 'ph-bold ph-check tick';
+        tick3.className = 'ph-bold ph-check tick';
+      }
+
+      function play() {
+        at(300,   function () { show('m1'); wave.classList.add('live'); });        // 1. onda animada
+        at(2200,  function () { wave.classList.remove('live'); });                  // 2. se para
+        at(2700,  function () { tick1.className = 'ph-bold ph-checks tick read'; }); // 3. tick celeste
+        at(3300,  function () { show('t1'); });                                     //    bot escribiendo
+        at(4800,  function () { hide('t1'); show('m2'); });                         // 4. responde el bot
+        at(7200,  function () { show('t2'); });                                     // 5. se escribe Martínez
+        at(8400,  function () { hide('t2'); show('m3'); });                         // 6. se manda (tick gris)
+        at(9200,  function () { tick3.className = 'ph-bold ph-checks tick read'; }); // 7. tick celeste
+        at(9800,  function () { show('t3'); });                                     //    bot escribiendo
+        at(11200, function () { hide('t3'); show('m4'); });                         // 8. último mensaje
+        at(16200, function () { reset(); at(800, play); });                         //    limpia y repite (5s después)
+      }
+      play();
     })();
   </script>
 </body>
