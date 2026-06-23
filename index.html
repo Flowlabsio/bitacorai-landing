@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bitacora: el CRM que se completa solo</title>
-  <meta name="description" content="Mandale un audio de WhatsApp a Bitacora después de cada reunión. Él registra contactos, oportunidades y pendientes en tu CRM, y te responde cualquier pregunta sobre tus clientes." />
+  <meta name="description" content="Después de cada reunión, envías un audio por WhatsApp y Bitacora registra contactos, oportunidades y pendientes en tu CRM. Además, responde cualquier consulta sobre tus clientes." />
   <meta property="og:title" content="Bitacora: el CRM que se completa solo" />
-  <meta property="og:description" content="Tu asistente de ventas por WhatsApp. Le contás, él anota. Le preguntás, te responde." />
+  <meta property="og:description" content="El asistente de ventas por WhatsApp: le hablas y registra todo en tu CRM; le consultas y responde al instante." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#075E54" />
   <meta name="color-scheme" content="light" />
@@ -266,7 +266,8 @@
     .problema .sub { max-width: 60ch; }
 
     /* Cómo funciona: 3 pasos en tarjetas */
-    .pasos-head { max-width: 30ch; }
+    .pasos-head { max-width: 40rem; }
+    .pasos-head .h2 { text-wrap: balance; }
     .pasos { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .paso {
       background: var(--bg-raised); border: 1px solid var(--line);
@@ -390,7 +391,7 @@
         <a href="#integraciones">Integraciones</a>
       </nav>
       <!-- TODO: reemplazar mailto por el link de WhatsApp comercial (https://wa.me/NUMERO?text=...) -->
-      <a class="btn btn-primary btn-sm" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Bitacora"><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>Probalo gratis</a>
+      <a class="btn btn-primary btn-sm" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Bitacora"><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>Solicitar una demo</a>
     </div>
   </header>
 
@@ -398,21 +399,21 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-content reveal">
-        <span class="pill-eyebrow"><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>Tu CRM, dentro de WhatsApp</span>
-        <h1>Vos le contás.<br>Bitacora lo <em>anota.</em></h1>
-        <p class="lead">Salís de una reunión, le mandás un audio a Bitacora por WhatsApp y tu CRM queda completo. Sin abrir una sola pantalla.</p>
+        <span class="pill-eyebrow"><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>Tu CRM, actualizado desde WhatsApp</span>
+        <h1>Tú lo cuentas.<br>Bitacora lo <em>registra.</em></h1>
+        <p class="lead">Después de cada reunión, envía un audio o mensaje por WhatsApp. Bitacora interpreta la información y actualiza tu CRM con nuevos contactos, oportunidades, notas y tareas pendientes.</p>
 
         <div class="hero-benefits">
-          <div class="benefit"><span class="ic"><i class="ph-bold ph-microphone" aria-hidden="true"></i></span>Contale como a un compañero de equipo</div>
-          <div class="benefit"><span class="ic"><i class="ph-bold ph-database" aria-hidden="true"></i></span>Registra contactos, oportunidades y pendientes</div>
-          <div class="benefit"><span class="ic"><i class="ph-bold ph-chat-circle-text" aria-hidden="true"></i></span>Preguntale lo que quieras, te responde al toque</div>
+          <div class="benefit"><span class="ic"><i class="ph-bold ph-check" aria-hidden="true"></i></span>Sin formularios</div>
+          <div class="benefit"><span class="ic"><i class="ph-bold ph-check" aria-hidden="true"></i></span>Sin planillas</div>
+          <div class="benefit"><span class="ic"><i class="ph-bold ph-check" aria-hidden="true"></i></span>Sin trabajo manual de carga</div>
         </div>
 
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Bitacora"><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>Probalo gratis</a>
+          <a class="btn btn-primary" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Bitacora"><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>Solicitar una demo</a>
           <a class="btn btn-ghost" href="#como">Ver cómo funciona</a>
         </div>
-        <p class="hero-note"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>Sin instalar nada. Si sabés mandar un audio, ya sabés usarlo.</p>
+        <p class="hero-note"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>Funciona directamente desde el WhatsApp que tu equipo ya utiliza, sin necesidad de aprender una nueva herramienta.</p>
       </div>
 
       <div class="phone-stage reveal">
@@ -440,8 +441,8 @@
                 <span class="wa-time">12:38 <i class="ph-bold ph-checks" aria-hidden="true"></i></span>
               </div>
               <div class="wa-bubble in">
-                <span class="wa-done"><i class="ph-bold ph-check-circle" aria-hidden="true"></i>Anotado</span><br />
-                Creé la oportunidad con TecnoSur (plan anual) y te dejé el pendiente: mandar la cotización el jueves.
+                <span class="wa-done"><i class="ph-bold ph-check-circle" aria-hidden="true"></i>Registrado</span><br />
+                Registré la oportunidad con TecnoSur para el plan anual y creé una tarea pendiente: enviar la cotización el jueves.
                 <span class="wa-time">12:38</span>
               </div>
               <div class="wa-bubble out">
@@ -449,7 +450,7 @@
                 <span class="wa-time">12:41 <i class="ph-bold ph-checks" aria-hidden="true"></i></span>
               </div>
               <div class="wa-bubble in">
-                Le debés la propuesta para el lunes. En la última reunión pidió referencias y precio por volumen.
+                Tienes pendiente enviarle la propuesta el lunes. En la última reunión solicitó referencias y precios por volumen.
                 <span class="wa-time">12:41</span>
               </div>
             </div>
@@ -466,8 +467,9 @@
   <!-- ===== Problema ===== -->
   <section class="problema">
     <div class="wrap reveal">
-      <h2 class="h2">Los CRM mueren porque nadie los carga.</h2>
-      <p class="sub">La venta real pasa en WhatsApp: ahí se negocia, se promete y se cierra. Nada de eso llega al CRM. Bitacora da vuelta la ecuación: nadie carga nada, y todo queda registrado.</p>
+      <h2 class="h2">Los CRM fallan cuando actualizar la información depende del equipo comercial.</h2>
+      <p class="sub">La venta ocurre en conversaciones, reuniones y llamadas. Allí se negocia, se acuerdan próximos pasos y se cierran oportunidades. Sin embargo, gran parte de esa información nunca llega al CRM.</p>
+      <p class="sub">Bitacora cambia esa dinámica: tu equipo continúa trabajando como siempre, mientras la información comercial se registra y organiza automáticamente.</p>
     </div>
   </section>
 
@@ -475,27 +477,27 @@
   <section id="como">
     <div class="wrap">
       <div class="pasos-head reveal">
-        <h2 class="h2">Funciona como un compañero de equipo.</h2>
-        <p class="sub">No hay nada que aprender ni que configurar. Le contás lo que pasó y se encarga del resto.</p>
+        <h2 class="h2">Un integrante más de tu equipo.</h2>
+        <p class="sub">No requiere procesos complejos ni largas capacitaciones. Le cuentas lo que ocurrió y Bitacora se encarga de registrar la información.</p>
       </div>
       <div class="pasos">
         <div class="paso reveal">
           <span class="paso-num">1</span>
           <span class="paso-ic"><i class="ph ph-microphone" aria-hidden="true"></i></span>
-          <h3>Contale</h3>
-          <p>Salís de una reunión y le mandás un audio, como se lo mandarías a un compañero. Desordenado, como te salga.</p>
+          <h3>Lo cuentas</h3>
+          <p>Después de una reunión, envía un audio o mensaje por WhatsApp, utilizando tus propias palabras y sin seguir una estructura específica.</p>
         </div>
         <div class="paso reveal">
           <span class="paso-num">2</span>
           <span class="paso-ic"><svg viewBox="0 0 80 80" style="width:34px;height:34px;display:block" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="15" y="9" width="50" height="62" rx="9"/><line x1="25" y1="13" x2="25" y2="67"/><path d="M49 11 h11 v20 l-5.5 -5 -5.5 5 z"/></svg></span>
-          <h3>Bitacora registra</h3>
-          <p>Crea el contacto, la empresa, la oportunidad y los pendientes en el CRM. Sin que abras una sola pantalla.</p>
+          <h3>Bitacora lo registra</h3>
+          <p>Crea o actualiza el contacto, la empresa, la oportunidad y las tareas pendientes en el CRM.</p>
         </div>
         <div class="paso reveal">
           <span class="paso-num">3</span>
           <span class="paso-ic"><i class="ph ph-chat-circle-text" aria-hidden="true"></i></span>
-          <h3>Preguntale</h3>
-          <p>¿En qué quedaste con cada cliente? ¿Qué tenés esta semana? Te contesta por WhatsApp, con todo el contexto.</p>
+          <h3>Lo consultas</h3>
+          <p>Pregunta por cualquier cliente, oportunidad o pendiente. Bitacora responde por WhatsApp utilizando toda la información disponible.</p>
         </div>
       </div>
     </div>
@@ -505,14 +507,14 @@
   <section id="funciones" style="padding-top: 0;">
     <div class="wrap">
       <div class="reveal">
-        <h2 class="h2">Todo lo que hablás, queda.</h2>
-        <p class="sub">Bitacora junta lo que hoy está repartido entre chats, audios, reuniones y la memoria de cada vendedor.</p>
+        <h2 class="h2">Toda la información comercial, en un solo lugar.</h2>
+        <p class="sub">Bitacora centraliza la información que hoy está distribuida entre conversaciones, audios, reuniones y la memoria de cada vendedor.</p>
       </div>
       <div class="bento">
         <div class="cell c-audio reveal">
           <i class="ph ph-waveform" aria-hidden="true"></i>
           <h3>Registro por audio o texto</h3>
-          <p>Mandale un audio desordenado de tres minutos. Bitacora entiende y completa el CRM por vos.</p>
+          <p>Envía un audio o mensaje después de cada reunión. Bitacora interpreta la información y actualiza el CRM.</p>
           <div class="demo-voice">
             <i class="ph-fill ph-play-circle" style="font-size:30px" aria-hidden="true"></i>
             <span class="wave" aria-hidden="true">
@@ -523,28 +525,28 @@
         </div>
         <div class="cell c-ask reveal">
           <i class="ph ph-chats-circle" aria-hidden="true"></i>
-          <h3>Preguntale lo que quieras</h3>
-          <p>El historial completo de cada cliente, a una pregunta de distancia.</p>
+          <h3>Consultas en lenguaje natural</h3>
+          <p>Consulta el historial de un cliente, los próximos pasos de una oportunidad o tus tareas de la semana directamente desde WhatsApp.</p>
         </div>
         <div class="cell c-sync reveal">
           <i class="ph ph-arrows-clockwise" aria-hidden="true"></i>
-          <h3>Sync automático de conversaciones</h3>
-          <p>Tus chats con cada cliente se vinculan solos a su ficha. Nada se pierde, aunque nadie registre nada.</p>
+          <h3>Sincronización de conversaciones</h3>
+          <p>Las conversaciones relevantes se vinculan con la ficha correspondiente de cada cliente, para mantener su historial organizado y accesible.</p>
         </div>
         <div class="cell c-meet reveal">
           <i class="ph ph-video-camera" aria-hidden="true"></i>
-          <h3>Reuniones y llamadas transcriptas</h3>
-          <p>Quedan asociadas a cada cliente. Consultalas por chat cuando las necesites.</p>
+          <h3>Transcripción de reuniones y llamadas</h3>
+          <p>Las reuniones y llamadas pueden transcribirse y asociarse al cliente correspondiente para consultarlas cuando las necesites.</p>
         </div>
         <div class="cell c-report reveal">
           <i class="ph ph-chart-line-up" aria-hidden="true"></i>
-          <h3>Reportes reales</h3>
-          <p>Los datos entran solos, así que los reportes dicen la verdad.</p>
+          <h3>Reportes más confiables</h3>
+          <p>Al reducir el trabajo manual de carga, el CRM refleja con mayor precisión la actividad real del equipo comercial.</p>
         </div>
         <div class="cell c-team reveal">
           <i class="ph ph-users-three" aria-hidden="true"></i>
-          <h3>Todo tu equipo, un solo CRM</h3>
-          <p>Cada vendedor habla con Bitacora desde su WhatsApp. Todo consolida en el mismo lugar, con su dueño asignado. Y si alguien se va, los clientes y su historia se quedan.</p>
+          <h3>Todo tu equipo en un único CRM</h3>
+          <p>Cada vendedor utiliza Bitacora desde su propio WhatsApp, mientras la información se consolida en un único espacio y se asigna a su responsable. Si una persona deja el equipo, el historial de sus clientes y oportunidades permanece en la empresa.</p>
         </div>
       </div>
     </div>
@@ -554,18 +556,22 @@
   <section id="integraciones" style="padding-top: 0;">
     <div class="wrap integ-grid">
       <div class="reveal">
-        <h2 class="h2">¿Ya tenés CRM? Mejor.</h2>
-        <p class="sub">Bitacora se conecta a tu CRM y lo mantiene vivo con lo que tu equipo ya hace: hablar por WhatsApp. ¿No tenés? Viene con uno completo adentro.</p>
-        <p class="integ-note">Hoy funciona sobre Twenty. Las demás integraciones están en camino: contanos cuál usás y la priorizamos.</p>
+        <h2 class="h2">¿Ya utilizas un CRM? Mejor.</h2>
+        <p class="sub">Bitacora se integra con tu CRM y lo mantiene actualizado a partir de la información que tu equipo comparte por WhatsApp. Y si todavía no utilizas uno, Bitacora incluye un CRM completo para comenzar.</p>
+        <p class="integ-note">Actualmente, Bitacora funciona con Twenty. Estamos desarrollando nuevas integraciones y queremos saber qué herramientas utiliza tu equipo para definir nuestras próximas prioridades.</p>
       </div>
       <div class="reveal">
+        <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-ink);margin:0 0 12px;">Disponible hoy</p>
         <div class="logos">
-          <div class="logo-tile"><img src="https://cdn.simpleicons.org/twenty/71717a" alt="Twenty" loading="lazy" /></div>
-          <div class="logo-tile"><img src="https://cdn.simpleicons.org/hubspot/71717a" alt="HubSpot" loading="lazy" /></div>
-          <div class="logo-tile"><img src="https://cdn.simpleicons.org/zoho/71717a" alt="Zoho" loading="lazy" /></div>
-          <div class="logo-tile"><img src="https://cdn.simpleicons.org/airtable/71717a" alt="Airtable" loading="lazy" /></div>
-          <div class="logo-tile"><img src="https://cdn.simpleicons.org/notion/71717a" alt="Notion" loading="lazy" /></div>
-          <div class="logo-tile"><img src="https://cdn.simpleicons.org/googlesheets/71717a" alt="Google Sheets" loading="lazy" /></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/twenty/075E54" alt="Twenty" loading="lazy" /></div>
+        </div>
+        <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:24px 0 12px;">Próximamente</p>
+        <div class="logos">
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/hubspot/71717a" alt="HubSpot" loading="lazy" style="opacity:.45" /></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/zoho/71717a" alt="Zoho CRM" loading="lazy" style="opacity:.45" /></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/airtable/71717a" alt="Airtable" loading="lazy" style="opacity:.45" /></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/notion/71717a" alt="Notion" loading="lazy" style="opacity:.45" /></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/googlesheets/71717a" alt="Google Sheets" loading="lazy" style="opacity:.45" /></div>
         </div>
       </div>
     </div>
@@ -574,19 +580,19 @@
   <!-- ===== Visión ===== -->
   <section class="vision">
     <div class="wrap vision-inner reveal">
-      <span class="eyebrow">Lo que viene</span>
-      <h2 class="h2">Un asistente que también sale a buscar.</h2>
-      <p class="sub">Bitacora va a investigar a tus contactos (cambios de trabajo, anuncios, noticias) y te va a avisar cuando haya una excusa real para escribirles. De registrar ventas, a generarlas.</p>
+      <span class="eyebrow">Próximamente</span>
+      <h2 class="h2">Un asistente que también identifica oportunidades.</h2>
+      <p class="sub">Bitacora podrá investigar novedades relevantes sobre tus contactos y empresas, como cambios de posición, anuncios o nuevos proyectos, y avisarte cuando exista una buena oportunidad para retomar el contacto. De mantener actualizado tu CRM a ayudarte a generar nuevas oportunidades comerciales.</p>
     </div>
   </section>
 
   <!-- ===== CTA final ===== -->
   <section class="cierre">
     <div class="wrap reveal">
-      <h2 class="h2">Estamos arrancando en Uruguay.</h2>
-      <p class="sub">Buscamos los primeros equipos comerciales que quieran un CRM vivo sin cargar nada. Sumate a la prueba.</p>
-      <a class="btn btn-primary" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Bitacora"><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>Probalo gratis</a>
-      <p class="hero-note"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>Te escribimos por WhatsApp y lo probás en tu próxima reunión.</p>
+      <h2 class="h2">Estamos comenzando en Uruguay.</h2>
+      <p class="sub">Buscamos equipos comerciales que quieran participar en nuestra primera etapa y probar una nueva forma de mantener su CRM actualizado, sin depender de la carga manual.</p>
+      <a class="btn btn-primary" href="mailto:joaquin@flow-labs.io?subject=Demo%20de%20Bitacora"><i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>Solicitar una demo</a>
+      <p class="hero-note"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>Te contactaremos por WhatsApp para que puedas probar Bitacora después de tu próxima reunión.</p>
     </div>
   </section>
 
