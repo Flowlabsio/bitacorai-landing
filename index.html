@@ -341,9 +341,12 @@
     .logos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
     .logo-tile {
       border: 1px solid var(--line); border-radius: 18px;
-      background: var(--bg-raised); display: grid; place-items: center; height: 92px;
+      background: var(--bg-raised);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px;
+      height: 100px;
     }
-    .logo-tile img { height: 30px; width: auto; opacity: .85; }
+    .logo-tile img { height: 28px; width: auto; opacity: .85; }
+    .logo-tile span { font-size: 12.5px; font-weight: 500; color: var(--ink-soft); }
     .integ-note { margin-top: 18px; font-size: 14px; color: var(--ink-soft); }
 
     /* Visión */
@@ -613,15 +616,15 @@
       <div class="reveal">
         <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-ink);margin:0 0 12px;">Disponible hoy</p>
         <div class="logos">
-          <div class="logo-tile"><img src="https://cdn.simpleicons.org/twenty/075E54" alt="Twenty" loading="lazy" /></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/twenty/075E54" alt="Twenty" loading="lazy" /><span>Twenty</span></div>
         </div>
         <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:24px 0 12px;">Próximamente</p>
         <div class="logos">
-          <div class="logo-tile"><img src="https://cdn.simpleicons.org/hubspot/71717a" alt="HubSpot" loading="lazy" style="opacity:.45" /></div>
-          <div class="logo-tile"><img src="https://cdn.simpleicons.org/zoho/71717a" alt="Zoho CRM" loading="lazy" style="opacity:.45" /></div>
-          <div class="logo-tile"><img src="https://cdn.simpleicons.org/airtable/71717a" alt="Airtable" loading="lazy" style="opacity:.45" /></div>
-          <div class="logo-tile"><img src="https://cdn.simpleicons.org/notion/71717a" alt="Notion" loading="lazy" style="opacity:.45" /></div>
-          <div class="logo-tile"><img src="https://cdn.simpleicons.org/googlesheets/71717a" alt="Google Sheets" loading="lazy" style="opacity:.45" /></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/hubspot/71717a" alt="HubSpot" loading="lazy" style="opacity:.45" /><span>HubSpot</span></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/zoho/71717a" alt="Zoho CRM" loading="lazy" style="opacity:.45" /><span>Zoho CRM</span></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/airtable/71717a" alt="Airtable" loading="lazy" style="opacity:.45" /><span>Airtable</span></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/notion/71717a" alt="Notion" loading="lazy" style="opacity:.45" /><span>Notion</span></div>
+          <div class="logo-tile"><img src="https://cdn.simpleicons.org/googlesheets/71717a" alt="Google Sheets" loading="lazy" style="opacity:.45" /><span>Google Sheets</span></div>
         </div>
       </div>
     </div>
